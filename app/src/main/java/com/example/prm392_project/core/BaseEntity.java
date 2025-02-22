@@ -16,11 +16,13 @@ public class BaseEntity {
     private Long createTime;
     @ColumnInfo(name = "delete_time")
     private Long deleteTime;
+    @ColumnInfo(name = "is_del")
+    private boolean isDel;
 
     public BaseEntity() {
-        id = UUID.randomUUID().toString().replace("-", "");
-        createTime = System.currentTimeMillis();
-        deleteTime = System.currentTimeMillis();
+        this.id = UUID.randomUUID().toString().replace("-", "");
+        this.createTime = System.currentTimeMillis();
+        this.isDel = false;
     }
 
     @NonNull
@@ -46,5 +48,13 @@ public class BaseEntity {
 
     public void setDeleteTime(Long deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public boolean isDel() {
+        return isDel;
+    }
+
+    public void setDel(boolean del) {
+        isDel = del;
     }
 }

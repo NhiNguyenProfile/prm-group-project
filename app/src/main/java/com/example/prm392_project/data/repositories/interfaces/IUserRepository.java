@@ -2,13 +2,14 @@ package com.example.prm392_project.data.repositories.interfaces;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.prm392_project.core.BaseRepository;
 import com.example.prm392_project.data.model.Users;
 
 import java.util.List;
 
 public interface IUserRepository {
     public LiveData<List<Users>> getAllUser();
+
+    public Users getUserById(int id);
 
     public void insertUser(Users... users);
 

@@ -35,7 +35,12 @@ android {
 dependencies {
 
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation(libs.play.services.wallet)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
 
     implementation(libs.appcompat)
     implementation(libs.material)

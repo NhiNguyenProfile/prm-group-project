@@ -8,10 +8,8 @@ import com.example.prm392_project.core.BaseEntity;
 
 @Entity(tableName = "users")
 public class Users extends BaseEntity {
-    @ColumnInfo(name = "first_name")
-    private String firstName;
-    @ColumnInfo(name = "last_name")
-    private String lastName;
+    @ColumnInfo(name = "name")
+    private String name;
     @ColumnInfo(name = "email")
     private String email;
     @ColumnInfo(name = "password")
@@ -21,31 +19,30 @@ public class Users extends BaseEntity {
     @ColumnInfo(name = "address")
     private String address;
 
+    @ColumnInfo(name = "role")
+    private String role;
+
     public Users() {
         super();
     }
 
     @Ignore
-    public Users(String firstName, String lastName) {
+    public Users(String name, String email, String password, String phoneNumber, String address, String role) {
         this();
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.role = role;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -78,5 +75,13 @@ public class Users extends BaseEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
