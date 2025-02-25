@@ -6,9 +6,9 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/account"
-        android:icon="@drawable/baseline_account_circle_24"
-        android:title="Account" />
+        android:id="@+id/favorite"
+        android:icon="@drawable/favorite_24px"
+        android:title="Favorite" />
 
     <item
         android:id="@+id/fab"
@@ -17,11 +17,11 @@
 
     <item
         android:id="@+id/setting"
-        android:icon="@drawable/settings_24px"
-        android:title="Settings" />
+        android:icon="@drawable/shopping_cart_24px"
+        android:title="Cart" />
 
     <item
-        android:id="@+id/delete"
-        android:icon="@drawable/delete_24px"
-        android:title="Delete" />
+        android:id="@+id/account"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="Account" />
 </menu>

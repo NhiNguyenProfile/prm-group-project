@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 
 import com.example.prm392_project.core.BaseEntity;
 
@@ -12,6 +13,9 @@ import java.math.BigDecimal;
 @Entity(tableName = "ProductVariants", foreignKeys = {
         @ForeignKey(entity = Products.class, parentColumns = "id", childColumns = "product_id"),
         @ForeignKey(entity = Sizes.class, parentColumns = "id", childColumns = "size_id")
+}, indices = {
+        @Index(value = "product_id"),
+        @Index(value = "size_id")
 })
 public class ProductVariants extends BaseEntity {
     @ColumnInfo(name = "product_id")

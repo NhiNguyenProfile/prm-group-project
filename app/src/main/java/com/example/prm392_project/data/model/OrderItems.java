@@ -1,4 +1,5 @@
 package com.example.prm392_project.data.model;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -9,10 +10,16 @@ import com.example.prm392_project.core.BaseEntity;
 
 import java.math.BigDecimal;
 
-@Entity(tableName = "order_items", indices = {@Index(value = {"order_id", "variant_id"})}, foreignKeys = {
-        @ForeignKey(entity = Orders.class, parentColumns = "id", childColumns = "order_id"),
-        @ForeignKey(entity = ProductVariants.class, parentColumns = "id", childColumns = "variant_id")
-})
+@Entity(tableName = "order_items",
+        indices = {
+                @Index(value = {"variant_id"}),
+                @Index(value = "order_id")
+        },
+        foreignKeys = {
+                @ForeignKey(entity = Orders.class, parentColumns = "id", childColumns = "order_id"),
+                @ForeignKey(entity = ProductVariants.class, parentColumns = "id", childColumns = "variant_id")
+        }
+)
 public class OrderItems extends BaseEntity {
     @ColumnInfo(name = "order_id")
     private String orderId;

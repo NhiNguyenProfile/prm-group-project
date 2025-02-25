@@ -4,12 +4,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 
 import com.example.prm392_project.core.BaseEntity;
 
-@Entity(tableName = "Products", foreignKeys = {
-        @ForeignKey(entity = Categories.class, parentColumns = "id", childColumns = "category_id"),
-})
+@Entity(tableName = "Products",
+        foreignKeys = {
+                @ForeignKey(entity = Categories.class, parentColumns = "id", childColumns = "category_id"),
+        },
+        indices = {
+                @Index(value = "category_id")
+        }
+)
 public class Products extends BaseEntity {
     @ColumnInfo(name = "name")
     private String name;

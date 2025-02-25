@@ -21,7 +21,10 @@ public interface UserDAO {
     List<Users> getAllUserAsync(); // use under background
 
     @Query("SELECT * FROM users WHERE id = :id and is_del == false")
-    Users getUserById(int id);
+    Users getUserByIdAsync(int id);
+
+    @Query("SELECT * FROM users WHERE email = :email and password = :password and is_del == false")
+    Users getAccountAsync(String email, String password);
 
     @Query("SELECT * FROM users WHERE email = :email and is_del == false")
     Users getUserByEmail(String email);

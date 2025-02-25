@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lavender"
-    tools:context=".ui.NavigationActivity">
+    tools:context=".activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -36,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
+        android:importantForAccessibility="no"
         android:src="@drawable/search_24px"
         app:layout_anchor="@id/bottomAppBar"
         />

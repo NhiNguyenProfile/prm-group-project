@@ -1,5 +1,6 @@
-package com.example.prm392_project.ui;
+package com.example.prm392_project.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,18 +9,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prm392_project.R;
-import com.example.prm392_project.databinding.ActivityNavigationBinding;
-import com.example.prm392_project.ui.Fragment.HomeFragment;
-import com.example.prm392_project.ui.Fragment.SettingFragment;
+import com.example.prm392_project.databinding.ActivityMainBinding;
+import com.example.prm392_project.activity.Fragment.HomeFragment;
+import com.example.prm392_project.activity.Fragment.SettingFragment;
 
-public class NavigationActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    ActivityNavigationBinding binding;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityNavigationBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
@@ -27,8 +28,13 @@ public class NavigationActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {
                 replaceFragment(new HomeFragment());
-            } else if (item.getItemId() == R.id.setting){
+            } else if (item.getItemId() == R.id.setting) {
                 replaceFragment(new SettingFragment());
+            } else if (item.getItemId() == R.id.account) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.favorite) {
+
             }
             return true;
         });

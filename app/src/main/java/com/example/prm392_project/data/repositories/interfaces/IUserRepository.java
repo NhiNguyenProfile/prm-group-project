@@ -3,16 +3,23 @@ package com.example.prm392_project.data.repositories.interfaces;
 import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.model.Users;
+import com.example.prm392_project.util.CallBack;
 
 import java.util.List;
 
 public interface IUserRepository {
-    public LiveData<List<Users>> getAllUser();
+    LiveData<List<Users>> getAllUser();
 
-    public Users getUserById(int id);
+    void getAllUserAsync(CallBack<List<Users>> users);
 
-    public void insertUser(Users... users);
+    Users getAccountAsync(String email, String password);
 
-    public void deleteUser(Users users);
+    Users getUserByIdAsync(int id);
+
+    void insertUser(Users... users);
+
+    void updateUsers(Users user);
+
+    void deleteUser(Users user);
 
 }
