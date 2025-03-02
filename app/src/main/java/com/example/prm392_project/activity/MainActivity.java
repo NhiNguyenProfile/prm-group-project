@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prm392_project.R;
-import com.example.prm392_project.databinding.ActivityMainBinding;
 import com.example.prm392_project.activity.Fragment.HomeFragment;
+import com.example.prm392_project.activity.Fragment.ProfileFragment;
 import com.example.prm392_project.activity.Fragment.SettingFragment;
+import com.example.prm392_project.databinding.ActivityMainBinding;
+import com.example.prm392_project.util.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,19 +24,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        init();
+    }
+
+    private void init() {
+        handleAllFunction();
+    }
+
+    private void handleAllFunction() {
+        navigationFragment();
+    }
+
+    private void navigationFragment() {
         replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
-
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {
+                binding.topAppBar.setTitle("Home");
                 replaceFragment(new HomeFragment());
             } else if (item.getItemId() == R.id.setting) {
+                binding.topAppBar.setTitle("Settings");
                 replaceFragment(new SettingFragment());
             } else if (item.getItemId() == R.id.account) {
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                if (SessionManager.getInstance().isLoggedIn()) {
+                    binding.topAppBar.setTitle("Profile");
+                    replaceFragment(new ProfileFragment());
+                } else {
+                    startActivity(new Intent(this, LoginActivity.class));
+                }
             } else if (item.getItemId() == R.id.favorite) {
-
+                binding.topAppBar.setTitle("Favourite");
             }
             return true;
         });

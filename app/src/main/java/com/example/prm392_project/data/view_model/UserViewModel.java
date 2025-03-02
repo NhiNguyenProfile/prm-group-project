@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.model.Users;
 import com.example.prm392_project.data.repositories.UserRepository;
-import com.example.prm392_project.util.CallBack;
+import com.example.prm392_project.data.repositories.callback.UserCallBack;
 
 import java.util.List;
 
@@ -22,15 +22,19 @@ public class UserViewModel extends AndroidViewModel {
         allUsers = userRepository.getAllUser();
     }
 
-    public Users login(String email, String password) {
-        return userRepository.getAccountAsync(email, password);
-    }
-
     public LiveData<List<Users>> getAllUsers() {
         return allUsers;
     }
 
-    public void getAllUserAsync(CallBack<List<Users>> users) {
-        userRepository.getAllUserAsync(users);
+    public void getUserInformation(String userId, UserCallBack callBack) {
+        userRepository.getUserByIdAsync(userId, callBack);
+    }
+
+    public void getAccountByEmailAsync(String email, UserCallBack callBack) {
+        userRepository.getAccountByEmailAsync(email, callBack);
+    }
+
+    public void getAllUserAsync(UserCallBack callBack) {
+        userRepository.getAllUserAsync(callBack);
     }
 }

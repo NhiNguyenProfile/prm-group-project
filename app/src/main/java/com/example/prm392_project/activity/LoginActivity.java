@@ -1,70 +1,87 @@
 package com.example.prm392_project.activity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.prm392_project.R;
-import com.example.prm392_project.data.adapter.UserAdapter;
+import com.example.prm392_project.data.model.Users;
+import com.example.prm392_project.data.repositories.callback.UserCallBack;
+import com.example.prm392_project.data.repositories.validation.BlankValidator;
+import com.example.prm392_project.data.repositories.validation.EmailValidator;
 import com.example.prm392_project.data.view_model.UserViewModel;
 import com.example.prm392_project.databinding.ActivityLoginBinding;
 import com.example.prm392_project.util.InputValidator;
+import com.example.prm392_project.util.SessionManager;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private UserViewModel userViewModel;
-    private UserAdapter userAdapter;
-
-    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
-        handleAllFunction();
-    }
-
-    private void handleAllFunction() {
-        showHidePassword();
-        login();
     }
 
     private void init() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        handleAllFunction();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void showHidePassword() {
-        binding.visibleToggle.setOnClickListener(v -> {
-            isPasswordVisible = !isPasswordVisible;
-            if (isPasswordVisible) {
-                binding.passwordET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                binding.visibleToggle.setBackgroundResource(R.drawable.visibility_24px);
-            } else {
-                binding.passwordET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                binding.visibleToggle.setBackgroundResource(R.drawable.visibility_off_24px);
-            }
+    private void handleAllFunction() {
+        login();
+        register();
+        validationInput();
+    }
 
-            binding.passwordET.setSelection(binding.passwordET.getText().length());
+    private void register() {
+        binding.registerLink.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+            this.finish();
         });
+    }
+
+    private void validationInput() {
+        binding.emailEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.emailEDT, Arrays.asList(new EmailValidator(), new BlankValidator())));
+        binding.passwordEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.passwordEDT, Arrays.asList(new BlankValidator())));
+    }
+
+    private boolean validationInputs() {
+        boolean isEmailValid = InputValidator.validateField(binding.emailEDT, Arrays.asList(new EmailValidator(), new BlankValidator()));
+        boolean isPasswordValid = InputValidator.validateField(binding.passwordEDT, Collections.singletonList(new BlankValidator()));
+
+        return isEmailValid && isPasswordValid;
     }
 
     private void login() {
         binding.loginButton.setOnClickListener(v -> {
-            if (!InputValidator.validateInputBlank(binding.emailET) || !InputValidator.validateInputBlank(binding.passwordET)) {
-                return;
-            }
-            String email = binding.emailET.getText().toString();
-            String password = binding.passwordET.getText().toString();
-            userViewModel.login(email, password);
+            if (!validationInputs()) return;
+            String email = binding.emailEDT.getText().toString();
+            String password = binding.passwordEDT.getText().toString();
+            userViewModel.getAccountByEmailAsync(email, new UserCallBack() {
+                @Override
+                public void onGetUserByEmail(Users users) {
+                    super.onGetUserByEmail(users);
+                    if (users == null || !users.getPassword().equals(password)) {
+                        Toast.makeText(LoginActivity.this, "Invalid password or email", Toast.LENGTH_SHORT).show();
+                    } else {
+                        SessionManager.getInstance().setLogin(true, users.getId());
+                        finish();
+                    }
+                }
+            });
         });
     }
 }
