@@ -6,7 +6,7 @@ import androidx.room.Ignore;
 
 import com.example.prm392_project.core.BaseEntity;
 
-@Entity(tableName = "Sizes")
+@Entity(tableName = "sizes")
 public class Sizes extends BaseEntity {
     @ColumnInfo(name = "size")
     private String size;

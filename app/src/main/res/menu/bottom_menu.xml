@@ -14,11 +14,10 @@
         android:id="@+id/fab"
         android:enabled="false"
         android:title="" />
-
     <item
-        android:id="@+id/setting"
-        android:icon="@drawable/shopping_cart_24px"
-        android:title="Cart" />
+        android:id="@+id/orders"
+        android:icon="@drawable/shopping_bag_24px"
+        android:title="Orders" />
 
     <item
         android:id="@+id/account"

@@ -10,7 +10,7 @@ import com.example.prm392_project.core.BaseEntity;
 
 import java.math.BigDecimal;
 
-@Entity(tableName = "ProductVariants", foreignKeys = {
+@Entity(tableName = "product_variants", foreignKeys = {
         @ForeignKey(entity = Products.class, parentColumns = "id", childColumns = "product_id"),
         @ForeignKey(entity = Sizes.class, parentColumns = "id", childColumns = "size_id")
 }, indices = {

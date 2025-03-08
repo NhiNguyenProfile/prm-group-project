@@ -34,6 +34,10 @@ public class UserViewModel extends AndroidViewModel {
         userRepository.getAccountByEmailAsync(email, callBack);
     }
 
+    public void registerAccount(Users user) {
+        userRepository.insertUser(user);
+    }
+
     public void getAllUserAsync(UserCallBack callBack) {
         userRepository.getAllUserAsync(callBack);
     }

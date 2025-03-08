@@ -1,4 +1,42 @@
 package com.example.prm392_project.data.repositories;
 
-public class ProductsRepository {
+import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
+
+import androidx.lifecycle.LiveData;
+
+import com.example.prm392_project.data.dao.ProductsDAO;
+import com.example.prm392_project.data.model.Products;
+import com.example.prm392_project.data.repositories.callback.ProductCallBack;
+import com.example.prm392_project.data.repositories.interfaces.IProductsRepository;
+import com.example.prm392_project.util.AppExecutors;
+import com.example.prm392_project.util.DatabaseHelper;
+
+import java.util.List;
+
+public class ProductsRepository implements IProductsRepository {
+    private LiveData<List<Products>> products;
+    private ProductsDAO productsDAO;
+
+    public ProductsRepository(Application application) {
+        DatabaseHelper database = DatabaseHelper.getInstance(application);
+        productsDAO = database.productsDAO();
+        this.products = productsDAO.getAllProduct();
+    }
+
+    @Override
+    public LiveData<List<Products>> getProducts() {
+        return products;
+    }
+
+    @Override
+    public void getProductsAsync(ProductCallBack callBack) {
+        AppExecutors.getDatabaseExecutor().execute(() -> {
+            List<Products> productAsync = productsDAO.getAllProductAsync();
+            new Handler(Looper.getMainLooper()).post(() -> {
+                callBack.onGetListProduct(productAsync);
+            });
+        });
+    }
 }

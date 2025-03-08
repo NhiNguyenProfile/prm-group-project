@@ -8,13 +8,9 @@ import androidx.room.Index;
 
 import com.example.prm392_project.core.BaseEntity;
 
-@Entity(tableName = "Products",
-        foreignKeys = {
-                @ForeignKey(entity = Categories.class, parentColumns = "id", childColumns = "category_id"),
-        },
-        indices = {
-                @Index(value = "category_id")
-        }
+@Entity(tableName = "products",
+        foreignKeys = @ForeignKey(entity = Categories.class, parentColumns = "id", childColumns = "category_id"),
+        indices = @Index(value = "category_id")
 )
 public class Products extends BaseEntity {
     @ColumnInfo(name = "name")
@@ -23,8 +19,10 @@ public class Products extends BaseEntity {
     private String description;
     @ColumnInfo(name = "brand")
     private String brand;
+    @ColumnInfo(name = "price")
+    private Float price;
     @ColumnInfo(name = "imageUrl")
-    private String imageUrl;
+    private int imageResId;
     @ColumnInfo(name = "category_id")
     private String category_id;
 
@@ -33,12 +31,13 @@ public class Products extends BaseEntity {
     }
 
     @Ignore
-    public Products(String name, String description, String brand, String imageUrl, String category_id) {
+    public Products(String name, Float price, String description, String brand, int imageResId, String category_id) {
         this();
         this.name = name;
+        this.price = price;
         this.description = description;
         this.brand = brand;
-        this.imageUrl = imageUrl;
+        this.imageResId = imageResId;
         this.category_id = category_id;
     }
 
@@ -66,12 +65,13 @@ public class Products extends BaseEntity {
         this.brand = brand;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+
+    public int getImageResId() {
+        return imageResId;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
     }
 
     public String getCategory_id() {
@@ -80,5 +80,13 @@ public class Products extends BaseEntity {
 
     public void setCategory_id(String category_id) {
         this.category_id = category_id;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 }

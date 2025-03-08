@@ -42,23 +42,29 @@ public class LoginActivity extends AppCompatActivity {
     private void handleAllFunction() {
         login();
         register();
-        validationInput();
+        displayErrorMessage();
+        goBack();
     }
 
-    private void register() {
-        binding.registerLink.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RegisterActivity.class);
-            startActivity(intent);
+    private void goBack() {
+        binding.goBack.setOnClickListener(v -> {
             this.finish();
         });
     }
 
-    private void validationInput() {
-        binding.emailEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.emailEDT, Arrays.asList(new EmailValidator(), new BlankValidator())));
-        binding.passwordEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.passwordEDT, Arrays.asList(new BlankValidator())));
+    private void register() {
+        binding.registerLink.setOnClickListener(v -> {
+            startActivity(new Intent(this, RegisterActivity.class));
+            this.finish();
+        });
     }
 
-    private boolean validationInputs() {
+    private void displayErrorMessage() {
+        binding.emailEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.emailEDT, Arrays.asList(new EmailValidator(), new BlankValidator())));
+        binding.passwordEDT.addTextChangedListener(InputValidator.getValidationWatcher(binding.passwordEDT, Collections.singletonList(new BlankValidator())));
+    }
+
+    private boolean validationInput() {
         boolean isEmailValid = InputValidator.validateField(binding.emailEDT, Arrays.asList(new EmailValidator(), new BlankValidator()));
         boolean isPasswordValid = InputValidator.validateField(binding.passwordEDT, Collections.singletonList(new BlankValidator()));
 
@@ -67,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         binding.loginButton.setOnClickListener(v -> {
-            if (!validationInputs()) return;
+            if (!validationInput()) return;
             String email = binding.emailEDT.getText().toString();
             String password = binding.passwordEDT.getText().toString();
             userViewModel.getAccountByEmailAsync(email, new UserCallBack() {

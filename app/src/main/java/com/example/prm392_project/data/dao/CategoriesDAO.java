@@ -16,6 +16,9 @@ public interface CategoriesDAO {
     @Query("select * from categories")
     LiveData<List<Categories>> getAllCategory();
 
+    @Query("SELECT id from categories where name = :name LIMIT 1")
+    String getCategoryByName(String name);
+
     @Query("select * from categories")
     List<Categories> getAllCategoryAsync();
 
@@ -24,6 +27,9 @@ public interface CategoriesDAO {
 
     @Insert
     void insertCategory(Categories... categories);
+
+    @Insert
+    void insertCategories(List<Categories> categories);
 
     @Update
     void updateCategory(Categories categories);

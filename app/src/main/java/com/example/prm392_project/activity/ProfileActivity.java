@@ -12,6 +12,8 @@ import com.example.prm392_project.data.view_model.UserViewModel;
 import com.example.prm392_project.databinding.ActivityProfileBinding;
 import com.example.prm392_project.util.SessionManager;
 
+import java.util.Objects;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
@@ -54,6 +56,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateProfile() {
+        String fullName = Objects.requireNonNull(binding.fullNameEDT.getText()).toString();
+        String email = Objects.requireNonNull(binding.emailEDT.getText()).toString();
+        String address = Objects.requireNonNull(binding.addressEDT.getText()).toString();
+        String phone = Objects.requireNonNull(binding.phoneEDT.getText()).toString();
+        String password = Objects.requireNonNull(binding.newPasswordEDT.getText()).toString();
         binding.updateProfileBTN.setOnClickListener(v -> {
             Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show();
         });

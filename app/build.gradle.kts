@@ -33,12 +33,12 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation(libs.recyclerview)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    implementation(libs.play.services.wallet)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
 

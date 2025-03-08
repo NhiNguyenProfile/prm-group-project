@@ -8,7 +8,7 @@ import androidx.room.Index;
 
 import com.example.prm392_project.core.BaseEntity;
 
-@Entity(tableName = "Orders",
+@Entity(tableName = "orders",
         foreignKeys = {
                 @ForeignKey(entity = Users.class, parentColumns = "id", childColumns = "user_id")
         },
