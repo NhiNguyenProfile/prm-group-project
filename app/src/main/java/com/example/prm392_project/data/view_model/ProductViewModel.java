@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.prm392_project.data.model.Products;
 import com.example.prm392_project.data.repositories.ProductsRepository;
@@ -25,6 +26,23 @@ public class ProductViewModel extends AndroidViewModel {
 
     public LiveData<List<Products>> getProducts() {
         return products;
+    }
+
+    public LiveData<Products> getProductById(String id) {
+        MutableLiveData<Products> productLiveData = new MutableLiveData<>();
+
+        products.observeForever(productList -> {
+            if (productList != null) {
+                for (Products product : productList) {
+                    if (product.getId().equals(id)) {
+                        productLiveData.setValue(product);
+                        break;
+                    }
+                }
+            }
+        });
+
+        return productLiveData;
     }
 
     public void getProductsAsync(ProductCallBack callback) {
