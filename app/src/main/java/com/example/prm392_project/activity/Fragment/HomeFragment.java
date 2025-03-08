@@ -1,5 +1,6 @@
 package com.example.prm392_project.activity.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.activity.ProductDetail;
 import com.example.prm392_project.data.adapter.CategoryHomePageAdapter;
 import com.example.prm392_project.data.adapter.ImageSliderAdapter;
 import com.example.prm392_project.data.adapter.ProductAdapter;
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
+
     private void init() {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         categoryViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
@@ -44,14 +47,13 @@ public class HomeFragment extends Fragment {
 
     private void handleAllFunction() {
         setupBanner();
-        setupProductRecycleView();
         setupCategoryRecycleView();
+        setupProductRecycleView();
     }
 
     private void setupBanner() {
         List<Integer> imageList = Arrays.asList(R.raw.banner1, R.raw.banner2);
         ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
-        binding.bannerProg.setVisibility(View.GONE);
         binding.viewPager.setAdapter(adapter);
     }
 
@@ -72,16 +74,15 @@ public class HomeFragment extends Fragment {
 
     private void setupProductRecycleView() {
         ProductAdapter productAdapter = new ProductAdapter(product -> {
-            Toast.makeText(requireContext(), product.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(requireContext(), ProductDetail.class);
+            intent.putExtra("PRODUCT_ID", product.getId());
+            startActivity(intent);
         });
-
-        binding.productProg.setVisibility(View.VISIBLE);
         binding.productRecycleView.setAdapter(productAdapter);
         binding.productRecycleView.setLayoutManager(new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false));
         productViewModel.getProducts().observe(getViewLifecycleOwner(), products -> {
             if (products != null) {
                 productAdapter.setData(products);
-                binding.productProg.setVisibility(View.GONE);
             }
         });
     }

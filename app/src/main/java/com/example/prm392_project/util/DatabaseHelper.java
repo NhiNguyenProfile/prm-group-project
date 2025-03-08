@@ -1,6 +1,7 @@
 package com.example.prm392_project.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -25,8 +26,10 @@ import com.example.prm392_project.data.model.Products;
 import com.example.prm392_project.data.model.Sizes;
 import com.example.prm392_project.data.model.Users;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Database(entities = {Users.class, Sizes.class, ProductVariants.class, Products.class, Orders.class, OrderItems.class, Categories.class}, version = 1, exportSchema = false)
 @TypeConverters(ConvertHelper.class)
@@ -70,6 +73,7 @@ public abstract class DatabaseHelper extends RoomDatabase {
                     insertDefaultSize(database);
                     insertDefaultProduct(database);
                     insertDefaultProductImage(database);
+                    insertDefaultProductVariants(database);
                 }
             });
         }
@@ -110,7 +114,7 @@ public abstract class DatabaseHelper extends RoomDatabase {
     private static void insertDefaultSize(DatabaseHelper database) {
         SizesDAO sizeDAO = database.sizesDAO();
         if (sizeDAO.getAllSizesAsync().isEmpty()) {
-            List<Sizes> sizes = Arrays.asList(new Sizes("36"), new Sizes("37"), new Sizes("38"), new Sizes("39"), new Sizes("40"), new Sizes("41"), new Sizes("42"), new Sizes("43"), new Sizes("44"), new Sizes("45"), new Sizes("46"));
+            List<Sizes> sizes = Arrays.asList(new Sizes("36"), new Sizes("37"), new Sizes("38"), new Sizes("39"), new Sizes("40"), new Sizes("41"), new Sizes("42"), new Sizes("43"));
             sizeDAO.insertSizes(sizes);
         }
     }
@@ -142,6 +146,27 @@ public abstract class DatabaseHelper extends RoomDatabase {
                     new Products("Dr. Martens 1461", 2400f, "Giày Derby bền bỉ, phong cách cổ điển.", "Dr. Martens", R.raw.shoes4, categoriesDAO.getCategoryByName("Derby Shoes"))
             );
             productsDAO.insertProducts(products);
+        }
+    }
+
+    private static void insertDefaultProductVariants(DatabaseHelper database) {
+        ProductsVariantsDAO productVariantsDAO = database.productVariantsDAO();
+        ProductsDAO productsDAO = database.productsDAO();
+        SizesDAO sizesDAO = database.sizesDAO();
+
+        if (true) {
+            List<Products> products = productsDAO.getAllProductAsync();
+            List<Sizes> sizes = sizesDAO.getAllSizesAsync();
+            List<ProductVariants> productVariants = new ArrayList<>();
+
+            Random random = new Random();
+            for (Products product : products) {
+                for (Sizes size : sizes) {
+                    int stockQuantity = random.nextInt(50) + 1;
+                    productVariants.add(new ProductVariants(product.getId(), size.getSize(), stockQuantity));
+                }
+            }
+            productVariantsDAO.insertProductVariants(productVariants);
         }
     }
 
