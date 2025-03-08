@@ -1,5 +1,6 @@
 package com.example.prm392_project.activity.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.activity.CardActivity;
+import com.example.prm392_project.activity.MainActivity;
+import com.example.prm392_project.activity.ProductDetail;
 import com.example.prm392_project.data.adapter.ImageSliderAdapter;
 import com.example.prm392_project.data.adapter.ProductAdapter;
 import com.example.prm392_project.data.view_model.ProductViewModel;
@@ -52,7 +56,9 @@ public class HomeFragment extends Fragment {
 
     private void setupRecycleView() {
         productAdapter = new ProductAdapter(product -> {
-            Toast.makeText(requireContext(), product.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(requireContext(), ProductDetail.class);
+            intent.putExtra("PRODUCT_ID", product.getId());
+            startActivity(intent);
         });
         binding.productRecycleView.setAdapter(productAdapter);
         binding.productRecycleView.setLayoutManager(new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false));

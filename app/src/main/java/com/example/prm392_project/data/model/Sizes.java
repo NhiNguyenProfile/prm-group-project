@@ -1,18 +1,19 @@
 package com.example.prm392_project.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-
-import com.example.prm392_project.core.BaseEntity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "sizes")
-public class Sizes extends BaseEntity {
+public class Sizes {
     @ColumnInfo(name = "size")
+    @PrimaryKey
+    @NonNull
     private String size;
 
     public Sizes() {
-        super();
     }
 
     @Ignore

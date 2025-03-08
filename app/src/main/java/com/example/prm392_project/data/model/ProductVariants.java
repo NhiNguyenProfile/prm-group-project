@@ -12,35 +12,29 @@ import java.math.BigDecimal;
 
 @Entity(tableName = "product_variants", foreignKeys = {
         @ForeignKey(entity = Products.class, parentColumns = "id", childColumns = "product_id"),
-        @ForeignKey(entity = Sizes.class, parentColumns = "id", childColumns = "size_id")
+        @ForeignKey(entity = Sizes.class, parentColumns = "size", childColumns = "size")
 }, indices = {
         @Index(value = "product_id"),
-        @Index(value = "size_id")
+        @Index(value = "size")
 })
 public class ProductVariants extends BaseEntity {
     @ColumnInfo(name = "product_id")
     private String productId;
-    @ColumnInfo(name = "color_id")
-    private String colorId;
-    @ColumnInfo(name = "size_id")
-    private String sizeId;
+    @ColumnInfo(name = "size")
+    private String size;
     @ColumnInfo(name = "stock_quantity")
     private int stockQuantity;
-    @ColumnInfo(name = "price")
-    private BigDecimal price;
 
     public ProductVariants() {
         super();
     }
 
     @Ignore
-    public ProductVariants(String productId, String colorId, String sizeId, int stockQuantity, BigDecimal price) {
+    public ProductVariants(String productId, String size, int stockQuantity) {
         this();
         this.productId = productId;
-        this.colorId = colorId;
-        this.sizeId = sizeId;
+        this.size = size;
         this.stockQuantity = stockQuantity;
-        this.price = price;
     }
 
     public String getProductId() {
@@ -51,20 +45,13 @@ public class ProductVariants extends BaseEntity {
         this.productId = productId;
     }
 
-    public String getColorId() {
-        return colorId;
+
+    public String getSize() {
+        return size;
     }
 
-    public void setColorId(String colorId) {
-        this.colorId = colorId;
-    }
-
-    public String getSizeId() {
-        return sizeId;
-    }
-
-    public void setSizeId(String sizeId) {
-        this.sizeId = sizeId;
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public int getStockQuantity() {
@@ -75,11 +62,4 @@ public class ProductVariants extends BaseEntity {
         this.stockQuantity = stockQuantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 }
