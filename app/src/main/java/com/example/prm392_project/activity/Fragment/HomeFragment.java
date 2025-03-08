@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.data.adapter.CategoryHomePageAdapter;
 import com.example.prm392_project.data.adapter.ImageSliderAdapter;
 import com.example.prm392_project.data.adapter.ProductAdapter;
+import com.example.prm392_project.data.view_model.CategoriesViewModel;
 import com.example.prm392_project.data.view_model.ProductViewModel;
 import com.example.prm392_project.databinding.FragmentHomeBinding;
 
@@ -24,7 +27,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private ProductViewModel productViewModel;
-    private ProductAdapter productAdapter;
+    private CategoriesViewModel categoryViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,32 +36,52 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-
     private void init() {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        categoryViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
         handleAllFunction();
+    }
+
+    private void handleAllFunction() {
         setupBanner();
+        setupProductRecycleView();
+        setupCategoryRecycleView();
     }
 
     private void setupBanner() {
         List<Integer> imageList = Arrays.asList(R.raw.banner1, R.raw.banner2);
         ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
+        binding.bannerProg.setVisibility(View.GONE);
         binding.viewPager.setAdapter(adapter);
     }
 
-    private void handleAllFunction() {
-        setupRecycleView();
+    private void setupCategoryRecycleView() {
+        CategoryHomePageAdapter categoryHomePageAdapter = new CategoryHomePageAdapter(cate -> {
+            Toast.makeText(requireContext(), cate.getName(), Toast.LENGTH_SHORT).show();
+        });
+        binding.categoryProg.setVisibility(View.VISIBLE);
+        binding.categoryRecycleView.setAdapter(categoryHomePageAdapter);
+        binding.categoryRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        categoryViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
+            if (categories != null) {
+                categoryHomePageAdapter.setData(categories);
+                binding.categoryProg.setVisibility(View.GONE);
+            }
+        });
     }
 
-    private void setupRecycleView() {
-        productAdapter = new ProductAdapter(product -> {
+    private void setupProductRecycleView() {
+        ProductAdapter productAdapter = new ProductAdapter(product -> {
             Toast.makeText(requireContext(), product.getName(), Toast.LENGTH_SHORT).show();
         });
+
+        binding.productProg.setVisibility(View.VISIBLE);
         binding.productRecycleView.setAdapter(productAdapter);
         binding.productRecycleView.setLayoutManager(new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false));
         productViewModel.getProducts().observe(getViewLifecycleOwner(), products -> {
             if (products != null) {
                 productAdapter.setData(products);
+                binding.productProg.setVisibility(View.GONE);
             }
         });
     }

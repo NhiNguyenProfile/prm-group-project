@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm392_project.R;
 import com.example.prm392_project.data.model.Categories;
-import com.example.prm392_project.data.view_holder.CategoryViewHolder;
+import com.example.prm392_project.data.view_holder.CategoryHomePageViewHolder;
+import com.example.prm392_project.databinding.ItemCategoryHomePageBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
+public class CategoryHomePageAdapter extends RecyclerView.Adapter<CategoryHomePageViewHolder> {
 
     private List<Categories> categoryList = new ArrayList<>();
 
@@ -24,7 +24,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
         void onCategoryClick(Categories category);
     }
 
-    public CategoryAdapter(OnCategoryClickListener listener) {
+    public void setData(List<Categories> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public CategoryHomePageAdapter(OnCategoryClickListener listener) {
         this.listener = listener;
     }
 
@@ -36,14 +40,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false));
+    public CategoryHomePageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemCategoryHomePageBinding binding = ItemCategoryHomePageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new CategoryHomePageViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryHomePageViewHolder holder, int position) {
         Categories category = categoryList.get(position);
-        
+        if (category == null) {
+            return;
+        }
+        holder.bindData(category);
+        holder.itemView.setOnClickListener(v -> listener.onCategoryClick(category));
     }
 
     @Override

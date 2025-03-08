@@ -35,6 +35,7 @@ android {
 dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation(libs.legacy.support.v4)
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     implementation(libs.recyclerview)
     implementation(libs.navigation.fragment)

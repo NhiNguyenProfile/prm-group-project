@@ -3,29 +3,24 @@ package com.example.prm392_project.data.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-
-import com.example.prm392_project.core.BaseEntity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "sizes")
-public class Sizes extends BaseEntity {
+public class Sizes {
+    @PrimaryKey
     @ColumnInfo(name = "size")
-    private String size;
-
-    public Sizes() {
-        super();
-    }
+    private int size;
 
     @Ignore
-    public Sizes(String size) {
-        this();
+    public Sizes(int size) {
         this.size = size;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 }

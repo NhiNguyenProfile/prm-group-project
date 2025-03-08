@@ -1,5 +1,6 @@
 package com.example.prm392_project.data.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -25,6 +26,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         this.clickListener = clickListener;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<Products> products) {
         this.products = products;
         notifyDataSetChanged();
