@@ -3,7 +3,6 @@ package com.example.prm392_project.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -112,9 +111,9 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     private void setupBanners() {
-            List<Integer> imageList = Arrays.asList(product.getImageResId());
-            ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
-            binding.slider.setAdapter(adapter);
+        List<Integer> imageList = Arrays.asList(product.getImageResId());
+        ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
+        binding.slider.setAdapter(adapter);
     }
 
     private void initSizeLists() {
@@ -140,10 +139,7 @@ public class ProductDetail extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", this.MODE_PRIVATE);
         int selectedPosition = sharedPreferences.getInt("selectedPosition", 0);
         CartItem cartItem = new CartItem(productId, product.getName(), 1, product.getPrice(), product.getImageResId(), currentSizeList.get(selectedPosition));
-
-
         managementCart.insertItem(cartItem, this);
-        Toast.makeText(this, "Product added to cart!", Toast.LENGTH_SHORT).show();
     }
 
 

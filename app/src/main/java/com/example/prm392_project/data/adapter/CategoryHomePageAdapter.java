@@ -24,18 +24,14 @@ public class CategoryHomePageAdapter extends RecyclerView.Adapter<CategoryHomePa
         void onCategoryClick(Categories category);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<Categories> categoryList) {
         this.categoryList = categoryList;
+        notifyDataSetChanged();
     }
 
     public CategoryHomePageAdapter(OnCategoryClickListener listener) {
         this.listener = listener;
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void setCategories(List<Categories> categoryList) {
-        this.categoryList = categoryList;
-        notifyDataSetChanged();
     }
 
     @NonNull

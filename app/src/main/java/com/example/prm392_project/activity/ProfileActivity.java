@@ -1,6 +1,7 @@
 package com.example.prm392_project.activity;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +30,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void init() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         handleAllFunction();
     }
 
     private void handleAllFunction() {
         fetchUserData();
         updateProfile();
+        goBack();
+    }
+
+    private void goBack() {
+        binding.goBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     private void fetchUserData() {

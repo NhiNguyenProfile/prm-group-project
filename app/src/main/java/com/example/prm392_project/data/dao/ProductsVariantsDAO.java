@@ -16,11 +16,14 @@ public interface ProductsVariantsDAO {
     @Query("SELECT * FROM product_variants")
     LiveData<List<ProductVariants>> getAllProductVariants();
 
-    @Query("SELECT * FROM product_variants WHERE id = :id")
-    ProductVariants getProductVariantById(String id);
+    @Query("SELECT id FROM product_variants WHERE product_id = :productId and size = :sizeId")
+    String getProductVariantIdByProductIdAndSizeId(String productId, String sizeId);
 
     @Query("SELECT * FROM product_variants WHERE product_id = :productId")
     LiveData<List<ProductVariants>> getVariantsByProductId(String productId);
+
+    @Query("SELECT * FROM product_variants")
+    List<ProductVariants> getProductVariantsAsync();
 
     @Insert
     void insert(ProductVariants... productVariants);

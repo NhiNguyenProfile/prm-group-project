@@ -20,7 +20,7 @@ public class Orders extends BaseEntity {
     @ColumnInfo(name = "user_id")
     private String userId;
     @ColumnInfo(name = "total_amount")
-    private String totalAmount;
+    private float totalAmount;
     @ColumnInfo(name = "status")
     private String status;
 
@@ -29,7 +29,7 @@ public class Orders extends BaseEntity {
     }
 
     @Ignore
-    public Orders(String userId, String totalAmount, String status) {
+    public Orders(String userId, float totalAmount, String status) {
         this();
         this.userId = userId;
         this.totalAmount = totalAmount;
@@ -44,11 +44,11 @@ public class Orders extends BaseEntity {
         this.userId = userId;
     }
 
-    public String getTotalAmount() {
+    public float getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(float totalAmount) {
         this.totalAmount = totalAmount;
     }
 

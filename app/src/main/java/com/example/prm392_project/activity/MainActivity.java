@@ -5,25 +5,26 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.prm392_project.R;
 import com.example.prm392_project.activity.Fragment.HomeFragment;
 import com.example.prm392_project.activity.Fragment.OrderFragment;
 import com.example.prm392_project.activity.Fragment.ProfileFragment;
-import com.example.prm392_project.data.view_model.ProductViewModel;
 import com.example.prm392_project.databinding.ActivityMainBinding;
 import com.example.prm392_project.util.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ProductViewModel productViewModel;
+
+    private ActivityResultLauncher<Intent> loginResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         handleAllFunction();
     }
 
     private void handleAllFunction() {
         navigationFragment();
+        setupLoginResultLauncher();
         searchProduct();
         topBarAction();
+    }
+
+    private void setupLoginResultLauncher() {
+        loginResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                if (data != null) {
+                    String previousScreen = data.getStringExtra("previousScreen");
+                    if (previousScreen != null) {
+                        if (previousScreen.equals("account")) {
+                            binding.topAppBar.setTitle("Profile");
+                            replaceFragment(new ProfileFragment());
+                        } else if (previousScreen.equals("orders")) {
+                            binding.topAppBar.setTitle("Orders");
+                            replaceFragment(new OrderFragment());
+                        } else if (previousScreen.equals("home")) {
+                            binding.topAppBar.setTitle("Home");
+                            replaceFragment(new HomeFragment());
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void topBarAction() {
@@ -49,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.action_card) {
-                    Toast.makeText(MainActivity.this, "Card clicked", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, CardActivity.class));
                     return true;
                 }
@@ -68,14 +91,22 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.favorite) {
                 binding.topAppBar.setTitle("Favourite");
             } else if (item.getItemId() == R.id.orders) {
-                binding.topAppBar.setTitle("Orders");
-                replaceFragment(new OrderFragment());
+                if (SessionManager.getInstance().isLoggedIn()) {
+                    binding.topAppBar.setTitle("Orders");
+                    replaceFragment(new OrderFragment());
+                } else {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("previousScreen", "orders");
+                    loginResult.launch(intent);
+                }
             } else if (item.getItemId() == R.id.account) {
                 if (SessionManager.getInstance().isLoggedIn()) {
                     binding.topAppBar.setTitle("Profile");
                     replaceFragment(new ProfileFragment());
                 } else {
-                    startActivity(new Intent(this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("previousScreen", "account");
+                    loginResult.launch(intent);
                 }
             }
             return true;

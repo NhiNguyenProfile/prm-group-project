@@ -8,8 +8,6 @@ import androidx.room.Index;
 
 import com.example.prm392_project.core.BaseEntity;
 
-import java.math.BigDecimal;
-
 @Entity(tableName = "order_items",
         indices = {
                 @Index(value = {"variant_id"}),
@@ -28,14 +26,14 @@ public class OrderItems extends BaseEntity {
     @ColumnInfo(name = "quantity")
     private int quantity;
     @ColumnInfo(name = "price")
-    private BigDecimal price;
+    private float price;
 
     public OrderItems() {
         super();
     }
 
     @Ignore
-    public OrderItems(String orderId, String variantId, int quantity, BigDecimal price) {
+    public OrderItems(String orderId, String variantId, int quantity, float price) {
         this();
         this.orderId = orderId;
         this.variantId = variantId;
@@ -67,11 +65,11 @@ public class OrderItems extends BaseEntity {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 }

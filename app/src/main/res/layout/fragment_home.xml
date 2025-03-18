@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,22 +51,17 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/categorySeeAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:textColor="@color/purple" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryRecycleView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     tools:listitem="@layout/item_category_home_page" />
 
                 <ProgressBar
@@ -74,16 +69,17 @@
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/categoryRecycleView"
-                    app:layout_constraintEnd_toEndOf="@id/categoryRecycleView"
-                    app:layout_constraintStart_toStartOf="@id/categoryRecycleView"
-                    app:layout_constraintTop_toTopOf="@id/categoryRecycleView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/categoryRecycleView"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryRecycleView"
+                    app:layout_constraintStart_toStartOf="@+id/categoryRecycleView"
+                    app:layout_constraintTop_toTopOf="@+id/categoryRecycleView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -96,32 +92,28 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/productSeeAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:textColor="@color/purple" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/productRecycleView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <ProgressBar
                     android:id="@+id/productProg"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/productRecycleView"
-                    app:layout_constraintEnd_toEndOf="@id/productRecycleView"
-                    app:layout_constraintStart_toStartOf="@id/productRecycleView"
-                    app:layout_constraintTop_toTopOf="@id/productRecycleView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/productRecycleView"
+                    app:layout_constraintEnd_toEndOf="@+id/productRecycleView"
+                    app:layout_constraintStart_toStartOf="@+id/productRecycleView"
+                    app:layout_constraintTop_toTopOf="@+id/productRecycleView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

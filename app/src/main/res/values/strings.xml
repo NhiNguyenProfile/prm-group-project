@@ -2,4 +2,5 @@
     <string name="app_name">PRM392_Project</string>
     <string name="login"><u>Login</u></string>
     <string name="register"><u>Register</u></string>
+    <string name="default_web_client_id">766518931624-2u9ue9urh2tcrknlc2md343blj49c8lh.apps.googleusercontent.com</string>
 </resources>

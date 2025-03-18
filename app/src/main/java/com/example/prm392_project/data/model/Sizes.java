@@ -18,7 +18,6 @@ public class Sizes {
 
     @Ignore
     public Sizes(String size) {
-        this();
         this.size = size;
     }
 

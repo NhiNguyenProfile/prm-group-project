@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
         List<Integer> imageList = Arrays.asList(R.raw.banner1, R.raw.banner2);
         ImageSliderAdapter adapter = new ImageSliderAdapter(imageList);
         binding.viewPager.setAdapter(adapter);
+        binding.bannerProg.setVisibility(View.GONE);
     }
 
     private void setupCategoryRecycleView() {
@@ -62,8 +63,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(requireContext(), cate.getName(), Toast.LENGTH_SHORT).show();
         });
         binding.categoryProg.setVisibility(View.VISIBLE);
-        binding.categoryRecycleView.setAdapter(categoryHomePageAdapter);
         binding.categoryRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.categoryRecycleView.setAdapter(categoryHomePageAdapter);
         categoryViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
             if (categories != null) {
                 categoryHomePageAdapter.setData(categories);
@@ -78,11 +79,13 @@ public class HomeFragment extends Fragment {
             intent.putExtra("PRODUCT_ID", product.getId());
             startActivity(intent);
         });
+        binding.productProg.setVisibility(View.VISIBLE);
         binding.productRecycleView.setAdapter(productAdapter);
         binding.productRecycleView.setLayoutManager(new GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false));
         productViewModel.getProducts().observe(getViewLifecycleOwner(), products -> {
             if (products != null) {
                 productAdapter.setData(products);
+                binding.productProg.setVisibility(View.GONE);
             }
         });
     }

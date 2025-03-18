@@ -44,7 +44,8 @@ public class ManagementCart {
     public ArrayList<CartItem> getListCart() {
         String json = sharedPreferences.getString("CartList", null);
         if (json != null) {
-            Type type = new TypeToken<ArrayList<CartItem>>() {}.getType();
+            Type type = new TypeToken<ArrayList<CartItem>>() {
+            }.getType();
             return gson.fromJson(json, type);
         } else {
             return new ArrayList<>();
@@ -74,6 +75,11 @@ public class ManagementCart {
             fee += item.getPrice() * item.getQuantity();
         }
         return fee;
+    }
+
+    public void clearCart() {
+        sharedPreferences.edit().remove("CartList").apply();
+        saveListCart(new ArrayList<>());
     }
 
     private void saveListCart(ArrayList<CartItem> list) {

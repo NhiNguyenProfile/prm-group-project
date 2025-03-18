@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_project.R;
@@ -50,13 +51,12 @@ public class SizeAdapter extends RecyclerView.Adapter<SizeAdapter.Viewholder> {
 
         if (selectedPosition == holder.getBindingAdapterPosition()) {
             holder.binding.colorLayout.setBackgroundResource(R.drawable.grey_bg_selected);
-            holder.binding.sizeTxt.setTextColor(context.getResources().getColor(R.color.purple));
+            holder.binding.sizeTxt.setTextColor(ContextCompat.getColor(context, R.color.purple));
         } else {
             holder.binding.colorLayout.setBackgroundResource(R.drawable.grey_bg);
-            holder.binding.sizeTxt.setTextColor(context.getResources().getColor(R.color.black));
+            holder.binding.sizeTxt.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
     }
-
 
 
     @Override
