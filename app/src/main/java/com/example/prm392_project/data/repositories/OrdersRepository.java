@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.dao.OrdersDAO;
 import com.example.prm392_project.data.model.Orders;
-import com.example.prm392_project.data.repositories.callback.OrderCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.interfaces.IOrdersRepository;
 import com.example.prm392_project.util.AppExecutors;
 import com.example.prm392_project.util.DatabaseHelper;
@@ -37,11 +37,11 @@ public class OrdersRepository implements IOrdersRepository {
     }
 
     @Override
-    public void insert(Orders orders, OrderCallBack callback) {
+    public void insert(Orders orders, CallBackData<Orders> callback) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             ordersDAO.insert(orders);
             new Handler(Looper.getMainLooper()).post(() -> {
-                callback.onInsertAsync(orders.getId());
+                callback.onGetItemId(orders.getId());
             });
         });
     }

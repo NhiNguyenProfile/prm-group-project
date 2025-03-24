@@ -177,6 +177,7 @@
             android:id="@+id/registerBTN"
             android:layout_width="250dp"
             android:textSize="20sp"
+            android:fitsSystemWindows="true"
             android:layout_height="60dp"
             android:text="Register" />
     </LinearLayout>

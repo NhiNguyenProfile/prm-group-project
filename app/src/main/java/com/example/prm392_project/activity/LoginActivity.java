@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.prm392_project.data.model.Users;
-import com.example.prm392_project.data.repositories.callback.UserCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.validation.BlankValidator;
 import com.example.prm392_project.data.repositories.validation.EmailValidator;
 import com.example.prm392_project.data.view_model.UserViewModel;
@@ -45,23 +45,23 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         if (account != null) {
-                            userViewModel.getAccountByEmailAsync(account.getEmail(), new UserCallBack() {
+                            userViewModel.getAccountByEmailAsync(account.getEmail(), new CallBackData<Users>() {
                                 @Override
-                                public void onGetUserByEmail(Users users) {
-                                    super.onGetUserByEmail(users);
+                                public void onGetItem(Users users) {
+                                    super.onGetItem(users);
                                     if (users != null) {
-                                        loginSuccess();
+                                        loginGoogleSuccessCallback();
                                     } else {
                                         Users user = new Users();
                                         user.setId(account.getId());
                                         user.setEmail(account.getEmail());
                                         user.setName(account.getDisplayName());
                                         userViewModel.registerAccount(user);
-                                        loginSuccess();
+                                        loginGoogleSuccessCallback();
                                     }
                                 }
                             });
-                            SessionManager.getInstance().setLogin(true, account.getId());
+                            SessionManager.setLogin(this, true, account.getId());
                         }
                     } catch (ApiException e) {
                         Log.e("GoogleSignIn", "Sign-in failed", e);
@@ -100,19 +100,16 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount gsc = GoogleSignIn.getLastSignedInAccount(this);
         if (gsc != null) {
-            loginSuccess();
+            loginGoogleSuccessCallback();
         }
     }
 
-    private void loginSuccess() {
+    private void loginGoogleSuccessCallback() {
         Intent resultIntent = new Intent();
-
         String previousScreen = getIntent().getStringExtra("previousScreen");
-
         if (previousScreen != null) {
             resultIntent.putExtra("previousScreen", previousScreen);
         }
-
         setResult(RESULT_OK, resultIntent);
         finish();
     }
@@ -147,14 +144,14 @@ public class LoginActivity extends AppCompatActivity {
             if (!validationInput()) return;
             String email = binding.emailEDT.getText().toString();
             String password = binding.passwordEDT.getText().toString();
-            userViewModel.getAccountByEmailAsync(email, new UserCallBack() {
+            userViewModel.getAccountByEmailAsync(email, new CallBackData<Users>() {
                 @Override
-                public void onGetUserByEmail(Users users) {
-                    super.onGetUserByEmail(users);
+                public void onGetItem(Users users) {
+                    super.onGetItem(users);
                     if (users == null || !users.getPassword().equals(password)) {
                         Toast.makeText(LoginActivity.this, "Invalid password or email", Toast.LENGTH_SHORT).show();
                     } else {
-                        SessionManager.getInstance().setLogin(true, users.getId());
+                        SessionManager.setLogin(getApplicationContext(), true, users.getId());
                         Intent resultIntent = new Intent();
 
                         String previousScreen = getIntent().getStringExtra("previousScreen");
@@ -167,6 +164,26 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                 }
+
+//                @Override
+//                public void onGetUserByEmail(Users users) {
+//                    super.onGetUserByEmail(users);
+//                    if (users == null || !users.getPassword().equals(password)) {
+//                        Toast.makeText(LoginActivity.this, "Invalid password or email", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        SessionManager.setLogin(getApplicationContext(), true, users.getId());
+//                        Intent resultIntent = new Intent();
+//
+//                        String previousScreen = getIntent().getStringExtra("previousScreen");
+//
+//                        if (previousScreen != null) {
+//                            resultIntent.putExtra("previousScreen", previousScreen);
+//                        }
+//
+//                        setResult(RESULT_OK, resultIntent);
+//                        finish();
+//                    }
+//                }
             });
         });
     }

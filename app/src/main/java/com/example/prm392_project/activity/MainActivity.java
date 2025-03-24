@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.favorite) {
                 binding.topAppBar.setTitle("Favourite");
             } else if (item.getItemId() == R.id.orders) {
-                if (SessionManager.getInstance().isLoggedIn()) {
+                if (SessionManager.isLoggedIn(getApplicationContext())) {
                     binding.topAppBar.setTitle("Orders");
                     replaceFragment(new OrderFragment());
                 } else {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     loginResult.launch(intent);
                 }
             } else if (item.getItemId() == R.id.account) {
-                if (SessionManager.getInstance().isLoggedIn()) {
+                if (SessionManager.isLoggedIn(getApplicationContext())) {
                     binding.topAppBar.setTitle("Profile");
                     replaceFragment(new ProfileFragment());
                 } else {

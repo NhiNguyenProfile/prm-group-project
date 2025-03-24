@@ -55,7 +55,7 @@ public class OrderFragment extends Fragment {
         });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(orderAdapter);
-        ordersViewModel.setUserId(SessionManager.getInstance().getUserId());
+        ordersViewModel.setUserId(SessionManager.getUserId(requireContext()));
         ordersViewModel.getOrders().observe(getViewLifecycleOwner(), orderAdapter::setData);
     }
 }

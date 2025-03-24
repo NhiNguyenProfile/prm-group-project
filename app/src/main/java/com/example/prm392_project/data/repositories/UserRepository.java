@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.dao.UserDAO;
 import com.example.prm392_project.data.model.Users;
-import com.example.prm392_project.data.repositories.callback.UserCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.interfaces.IUserRepository;
 import com.example.prm392_project.util.AppExecutors;
 import com.example.prm392_project.util.DatabaseHelper;
@@ -32,28 +32,28 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public void getAllUserAsync(UserCallBack callback) {
+    public void getAllUserAsync(CallBackData<Users> callback) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             List<Users> users = userDAO.getAllUserAsync();
             new Handler(Looper.getMainLooper()).post(() -> {
-                callback.onGetListUser(users);
+                callback.onGetAllItem(users);
             });
         });
     }
 
     @Override
-    public void getAccountByEmailAsync(String email, UserCallBack callBack) {
+    public void getAccountByEmailAsync(String email, CallBackData<Users> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             Users user = userDAO.getUserByEmail(email);
-            new Handler(Looper.getMainLooper()).post(() -> callBack.onGetUserByEmail(user));
+            new Handler(Looper.getMainLooper()).post(() -> callBack.onGetItem(user));
         });
     }
 
     @Override
-    public void getUserByIdAsync(String id, UserCallBack callBack) {
+    public void getUserByIdAsync(String id, CallBackData<Users> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             Users user = userDAO.getUserByIdAsync(id);
-            new Handler(Looper.getMainLooper()).post(() -> callBack.onGetUserById(user));
+            new Handler(Looper.getMainLooper()).post(() -> callBack.onGetItem(user));
         });
     }
 

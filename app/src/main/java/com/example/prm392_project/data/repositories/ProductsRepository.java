@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.dao.ProductsDAO;
 import com.example.prm392_project.data.model.Products;
-import com.example.prm392_project.data.repositories.callback.ProductCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.interfaces.IProductsRepository;
 import com.example.prm392_project.util.AppExecutors;
 import com.example.prm392_project.util.DatabaseHelper;
@@ -31,11 +31,11 @@ public class ProductsRepository implements IProductsRepository {
     }
 
     @Override
-    public void getProductsAsync(ProductCallBack callBack) {
+    public void getProductsAsync(CallBackData<Products> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             List<Products> productAsync = productsDAO.getAllProductAsync();
             new Handler(Looper.getMainLooper()).post(() -> {
-                callBack.onGetListProduct(productAsync);
+                callBack.onGetAllItem(productAsync);
             });
         });
     }

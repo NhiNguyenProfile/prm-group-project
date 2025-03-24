@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.dao.ProductsVariantsDAO;
 import com.example.prm392_project.data.model.ProductVariants;
-import com.example.prm392_project.data.repositories.callback.ProductVariantCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.interfaces.IProductsVariantsRepository;
 import com.example.prm392_project.util.AppExecutors;
 import com.example.prm392_project.util.DatabaseHelper;
@@ -36,21 +36,21 @@ public class ProductsVariantsRepository implements IProductsVariantsRepository {
     }
 
     @Override
-    public void getProductVariantsAsync(ProductVariantCallBack callBack) {
+    public void getProductVariantsAsync(CallBackData<ProductVariants> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             List<ProductVariants> productVariants = productsVariantsDAO.getProductVariantsAsync();
             new Handler(Looper.getMainLooper()).post(() -> {
-                callBack.onGetProductVariantsAsync(productVariants);
+                callBack.onGetAllItem(productVariants);
             });
         });
     }
 
     @Override
-    public void getProductVariantByIdAsync(String productId, String sizeId, ProductVariantCallBack callBack) {
+    public void getProductVariantByIdAsync(String productId, String sizeId, CallBackData<ProductVariants> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             String variantId = productsVariantsDAO.getProductVariantIdByProductIdAndSizeId(productId, sizeId);
             new Handler(Looper.getMainLooper()).post(() -> {
-                callBack.onGetProductVariantsById(variantId);
+                callBack.onGetItemId(variantId);
             });
 
         });

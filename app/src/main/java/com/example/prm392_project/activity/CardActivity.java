@@ -15,8 +15,8 @@ import com.example.prm392_project.data.adapter.CartAdapter;
 import com.example.prm392_project.data.model.CartItem;
 import com.example.prm392_project.data.model.OrderItems;
 import com.example.prm392_project.data.model.Orders;
-import com.example.prm392_project.data.repositories.callback.OrderCallBack;
-import com.example.prm392_project.data.repositories.callback.ProductVariantCallBack;
+import com.example.prm392_project.data.model.ProductVariants;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.view_model.OrderItemsViewModel;
 import com.example.prm392_project.data.view_model.OrdersViewModel;
 import com.example.prm392_project.data.view_model.ProductVariantViewModel;
@@ -133,7 +133,7 @@ public class CardActivity extends AppCompatActivity {
 
     private void onPayment() {
         binding.checkoutBTN.setOnClickListener(v -> {
-            if (!SessionManager.getInstance().isLoggedIn()) {
+            if (!SessionManager.isLoggedIn(getApplicationContext())) {
                 openDialog();
                 return;
             }
@@ -177,7 +177,7 @@ public class CardActivity extends AppCompatActivity {
         List<CartItem> cartItems = managementCart.getListCart();
         // Insert Order
         float totalPrice = Float.parseFloat(binding.totalTxt.getText().toString().replace("$", ""));
-        String userId = SessionManager.getInstance().getUserId();
+        String userId = SessionManager.getUserId(getApplicationContext());
         String status = "Pending";
 
         Orders orders = new Orders();
@@ -185,17 +185,17 @@ public class CardActivity extends AppCompatActivity {
         orders.setTotalAmount(totalPrice);
         orders.setStatus(status);
 
-        ordersViewModel.insertOrder(orders, new OrderCallBack() {
+        ordersViewModel.insertOrder(orders, new CallBackData<Orders>() {
             @Override
-            public void onInsertAsync(String orderId) {
-                super.onInsertAsync(orderId);
+            public void onGetItemId(String orderId) {
+                super.onGetItemId(orderId);
 
                 // Insert OrderItems
                 for (CartItem item : cartItems) {
-                    productVariantViewModel.getProductVariantBySizeAndProductIdAsync(item.getProductId(), item.getSize(), new ProductVariantCallBack() {
+                    productVariantViewModel.getProductVariantBySizeAndProductIdAsync(item.getProductId(), item.getSize(), new CallBackData<ProductVariants>() {
                         @Override
-                        public void onGetProductVariantsById(String variantId) {
-                            super.onGetProductVariantsById(variantId);
+                        public void onGetItemId(String variantId) {
+                            super.onGetItemId(variantId);
                             OrderItems orderItems = new OrderItems();
                             orderItems.setOrderId(orderId);
                             orderItems.setVariantId(variantId);

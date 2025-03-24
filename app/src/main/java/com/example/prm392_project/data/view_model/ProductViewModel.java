@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.prm392_project.data.model.Products;
 import com.example.prm392_project.data.repositories.ProductsRepository;
-import com.example.prm392_project.data.repositories.callback.ProductCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class ProductViewModel extends AndroidViewModel {
         return productLiveData;
     }
 
-    public void getProductsAsync(ProductCallBack callback) {
+    public void getProductsAsync(CallBackData<Products> callback) {
         repository.getProductsAsync(callback);
     }
 }

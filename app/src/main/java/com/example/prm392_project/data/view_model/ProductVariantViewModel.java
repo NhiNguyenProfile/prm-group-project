@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.prm392_project.data.model.ProductVariants;
 import com.example.prm392_project.data.repositories.ProductsVariantsRepository;
-import com.example.prm392_project.data.repositories.callback.ProductVariantCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ProductVariantViewModel extends AndroidViewModel {
         return productVariants;
     }
 
-    public void getProductVariantBySizeAndProductIdAsync(String productId, String sizeId, ProductVariantCallBack callBack) {
+    public void getProductVariantBySizeAndProductIdAsync(String productId, String sizeId, CallBackData<ProductVariants> callBack) {
         repository.getProductVariantByIdAsync(productId, sizeId, callBack);
     }
 

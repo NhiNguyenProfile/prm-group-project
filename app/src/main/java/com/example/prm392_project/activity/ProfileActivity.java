@@ -2,13 +2,12 @@ package com.example.prm392_project.activity;
 
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.prm392_project.data.model.Users;
-import com.example.prm392_project.data.repositories.callback.UserCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.view_model.UserViewModel;
 import com.example.prm392_project.databinding.ActivityProfileBinding;
 import com.example.prm392_project.util.SessionManager;
@@ -19,6 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
     private UserViewModel userViewModel;
+    private Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +47,19 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void fetchUserData() {
-        String userId = SessionManager.getInstance().getUserId();
-        userViewModel.getUserInformation(userId, new UserCallBack() {
+        String userId = SessionManager.getUserId(getApplicationContext());
+        userViewModel.getUserInformation(userId, new CallBackData<Users>() {
             @Override
-            public void onGetUserById(Users user) {
-                super.onGetUserById(user);
-                bindingUserData(user);
+            public void onGetItem(Users users) {
+                super.onGetItem(users);
+                bindingUserData(users);
+                setUser(users);
             }
         });
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     private void bindingUserData(Users user) {
@@ -64,14 +69,23 @@ public class ProfileActivity extends AppCompatActivity {
         binding.phoneEDT.setText(user.getPhoneNumber());
     }
 
-    private void updateProfile() {
+    private void updateUser() {
         String fullName = Objects.requireNonNull(binding.fullNameEDT.getText()).toString();
         String email = Objects.requireNonNull(binding.emailEDT.getText()).toString();
         String address = Objects.requireNonNull(binding.addressEDT.getText()).toString();
         String phone = Objects.requireNonNull(binding.phoneEDT.getText()).toString();
         String password = Objects.requireNonNull(binding.newPasswordEDT.getText()).toString();
+        user.setName(fullName);
+        user.setEmail(email);
+        user.setAddress(address);
+        user.setPhoneNumber(phone);
+        user.setPassword(password);
+        userViewModel.updateUser(user);
+    }
+
+    private void updateProfile() {
         binding.updateProfileBTN.setOnClickListener(v -> {
-            Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show();
+            updateUser();
         });
     }
 }

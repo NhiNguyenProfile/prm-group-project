@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.prm392_project.data.model.Users;
-import com.example.prm392_project.data.repositories.callback.UserCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.validation.BlankValidator;
 import com.example.prm392_project.data.repositories.validation.EmailValidator;
 import com.example.prm392_project.data.view_model.UserViewModel;
@@ -87,10 +87,10 @@ public class RegisterActivity extends AppCompatActivity {
             String phoneNumber = Objects.requireNonNull(binding.phoneEDT.getText()).toString();
             String address = Objects.requireNonNull(binding.addressEDT.getText()).toString();
             String password = Objects.requireNonNull(binding.passwordEDT.getText()).toString();
-            userViewModel.getAccountByEmailAsync(email, new UserCallBack() {
+            userViewModel.getAccountByEmailAsync(email, new CallBackData<Users>() {
                 @Override
-                public void onGetUserByEmail(Users users) {
-                    super.onGetUserByEmail(users);
+                public void onGetItem(Users items) {
+                    super.onGetItem(items);
                     if (users == null) {
                         Users user = new Users(fullName, email, password, phoneNumber, address, "Users");
                         userViewModel.registerAccount(user);

@@ -10,7 +10,7 @@ import androidx.lifecycle.Transformations;
 
 import com.example.prm392_project.data.model.Orders;
 import com.example.prm392_project.data.repositories.OrdersRepository;
-import com.example.prm392_project.data.repositories.callback.OrderCallBack;
+import com.example.prm392_project.data.repositories.callback.CallBackData;
 import com.example.prm392_project.data.repositories.interfaces.IOrdersRepository;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class OrdersViewModel extends AndroidViewModel {
         return listOrder;
     }
 
-    public void insertOrder(Orders orders, OrderCallBack callBack) {
+    public void insertOrder(Orders orders, CallBackData<Orders> callBack) {
         repository.insert(orders, callBack);
     }
 }

@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
             gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    SessionManager.getInstance().logout();
+                    SessionManager.logout(requireContext());
                     startActivity(new Intent(requireContext(), LoginActivity.class));
                 }
             });
