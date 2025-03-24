@@ -35,13 +35,19 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(
         fileTree(
-            mapOf(
-                "dir" to "E:\\FPT\\semester_7\\PRM392\\Work\\Project\\ZaloPayLib",
-                "include" to listOf("*.aar", "*.jar"),
-                "exclude" to listOf("")
-            )
+            mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))
         )
     )
+//    implementation(
+//        fileTree(
+//            mapOf(
+//                "dir" to "E:\\FPT\\semester_7\\PRM392\\Work\\Project\\ZaloPayLib",
+//                "include" to listOf("*.aar", "*.jar"),
+//                "exclude" to listOf("")
+//            )
+//        )
+//    )
+
     // Google
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
