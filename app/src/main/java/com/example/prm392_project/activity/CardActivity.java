@@ -178,7 +178,7 @@ public class CardActivity extends AppCompatActivity {
         // Insert Order
         float totalPrice = Float.parseFloat(binding.totalTxt.getText().toString().replace("$", ""));
         String userId = SessionManager.getUserId(getApplicationContext());
-        String status = "Pending";
+        String status = "Success";
 
         Orders orders = new Orders();
         orders.setUserId(userId);

@@ -2,6 +2,8 @@ package com.example.prm392_project.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -94,8 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
                     if (users == null) {
                         Users user = new Users(fullName, email, password, phoneNumber, address, "Users");
                         userViewModel.registerAccount(user);
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        finish();
+                        Toast.makeText(RegisterActivity.this, "Register successfully.", Toast.LENGTH_SHORT).show();
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            finish();
+                        }, 2000);
                     } else {
                         Toast.makeText(RegisterActivity.this, "Email has register on system.", Toast.LENGTH_SHORT).show();
                     }

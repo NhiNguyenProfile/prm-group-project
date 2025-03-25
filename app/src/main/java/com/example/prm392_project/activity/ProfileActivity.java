@@ -1,7 +1,10 @@
 package com.example.prm392_project.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -81,6 +84,10 @@ public class ProfileActivity extends AppCompatActivity {
         user.setPhoneNumber(phone);
         user.setPassword(password);
         userViewModel.updateUser(user);
+        Toast.makeText(this, "Update Success", Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            finish();
+        }, 2000);
     }
 
     private void updateProfile() {
