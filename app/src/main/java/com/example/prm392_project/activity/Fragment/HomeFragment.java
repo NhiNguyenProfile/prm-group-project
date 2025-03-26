@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,6 +29,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private ProductViewModel productViewModel;
     private CategoriesViewModel categoryViewModel;
+    private ProductAdapter productAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
         setupBanner();
         setupCategoryRecycleView();
         setupProductRecycleView();
+        showAllProduct();
     }
 
     private void setupBanner() {
@@ -60,7 +61,9 @@ public class HomeFragment extends Fragment {
 
     private void setupCategoryRecycleView() {
         CategoryHomePageAdapter categoryHomePageAdapter = new CategoryHomePageAdapter(cate -> {
-            Toast.makeText(requireContext(), cate.getName(), Toast.LENGTH_SHORT).show();
+            productViewModel.getAllProductByCategory(cate.getId()).observe(getViewLifecycleOwner(), products -> {
+                productAdapter.setData(products);
+            });
         });
         binding.categoryProg.setVisibility(View.VISIBLE);
         binding.categoryRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -73,8 +76,16 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void showAllProduct() {
+        binding.allBTN.setOnClickListener(v -> {
+            productViewModel.getProducts().observe(getViewLifecycleOwner(), products -> {
+                productAdapter.setData(products);
+            });
+        });
+    }
+
     private void setupProductRecycleView() {
-        ProductAdapter productAdapter = new ProductAdapter(product -> {
+        productAdapter = new ProductAdapter(product -> {
             Intent intent = new Intent(requireContext(), ProductDetail.class);
             intent.putExtra("PRODUCT_ID", product.getId());
             startActivity(intent);

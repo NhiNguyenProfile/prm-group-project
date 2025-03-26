@@ -31,6 +31,11 @@ public class ProductsRepository implements IProductsRepository {
     }
 
     @Override
+    public LiveData<List<Products>> getAllProductByCategory(String categoryId) {
+        return productsDAO.getAllProductByCategory(categoryId);
+    }
+
+    @Override
     public void getProductsAsync(CallBackData<Products> callBack) {
         AppExecutors.getDatabaseExecutor().execute(() -> {
             List<Products> productAsync = productsDAO.getAllProductAsync();

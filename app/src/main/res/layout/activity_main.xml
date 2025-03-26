@@ -17,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/top_bar_menu"
-        app:navigationIcon="@drawable/menu_24px"
         app:navigationIconTint="@color/white"
         app:title="Home"
         app:titleCentered="true"
@@ -64,15 +63,15 @@
                 app:menu="@menu/bottom_menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/searchBTN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/search_24px"
-            android:tint="@color/lavender"
-            app:layout_anchor="@id/bottomAppBar"
-            app:maxImageSize="30dp" />
+        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--            android:id="@+id/searchBTN"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:backgroundTint="@color/white"-->
+        <!--            android:src="@drawable/search_24px"-->
+        <!--            android:tint="@color/lavender"-->
+        <!--            app:layout_anchor="@id/bottomAppBar"-->
+        <!--            app:maxImageSize="30dp" />-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

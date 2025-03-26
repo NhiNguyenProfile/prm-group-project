@@ -22,6 +22,9 @@ public interface ProductsDAO {
     @Query("SELECT * FROM Products WHERE id = :id")
     Products getProductById(String id);
 
+    @Query("SELECT * FROM products  where products.category_id = :categoryId")
+    LiveData<List<Products>> getAllProductByCategory(String categoryId);
+
     @Insert
     void insert(Products... product);
 

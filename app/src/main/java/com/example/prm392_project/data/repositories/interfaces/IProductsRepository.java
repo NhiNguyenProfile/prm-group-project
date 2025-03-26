@@ -10,5 +10,7 @@ import java.util.List;
 public interface IProductsRepository {
     LiveData<List<Products>> getProducts();
 
+    LiveData<List<Products>> getAllProductByCategory(String categoryId);
+
     void getProductsAsync(CallBackData<Products> callBack);
 }

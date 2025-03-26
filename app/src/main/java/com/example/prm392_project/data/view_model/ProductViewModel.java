@@ -48,4 +48,12 @@ public class ProductViewModel extends AndroidViewModel {
     public void getProductsAsync(CallBackData<Products> callback) {
         repository.getProductsAsync(callback);
     }
+
+    public LiveData<List<Products>> getAllProductByCategory(String categoryId) {
+        if (categoryId.isEmpty()) {
+            return repository.getProducts();
+        } else {
+            return repository.getAllProductByCategory(categoryId);
+        }
+    }
 }

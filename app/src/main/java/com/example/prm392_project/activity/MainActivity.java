@@ -3,7 +3,6 @@ package com.example.prm392_project.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleAllFunction() {
         navigationFragment();
         setupLoginResultLauncher();
-        searchProduct();
+//        searchProduct();
         topBarAction();
     }
 
@@ -88,9 +87,11 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.home) {
                 binding.topAppBar.setTitle("Home");
                 replaceFragment(new HomeFragment());
-            } else if (item.getItemId() == R.id.favorite) {
-                binding.topAppBar.setTitle("Favourite");
-            } else if (item.getItemId() == R.id.orders) {
+            }
+//            else if (item.getItemId() == R.id.favorite) {
+//                binding.topAppBar.setTitle("Favourite");
+//            }
+            else if (item.getItemId() == R.id.orders) {
                 if (SessionManager.isLoggedIn(getApplicationContext())) {
                     binding.topAppBar.setTitle("Orders");
                     replaceFragment(new OrderFragment());
@@ -113,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void searchProduct() {
-        binding.searchBTN.setOnClickListener(v -> {
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
-        });
-    }
+//    private void searchProduct() {
+//        binding.searchBTN.setOnClickListener(v -> {
+//            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
+//        });
+//    }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
